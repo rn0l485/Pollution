@@ -35,10 +35,14 @@ class pollution (object):
 		accuracy = metrics.accuracy_score(testY, test_y_predicted)
 		print (accuracy)
 
+	def PredictThePollution(self, dataX):
+		return self.forest.predict(dataX)
+
 if __name__ == '__main__':
 	pollu = pollution()
 	train_X, test_X, train_y, test_y = pollu.DataSplit(pollu.readCsv())
 	pollu.TrainRandomForestModel(train_X, train_y, test_X,test_y)
+	
 
 
 
