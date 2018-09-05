@@ -6,7 +6,7 @@ from sklearn import cross_validation, ensemble, preprocessing, metrics
 class pollution (object):
 	def __init__(self, ):
 		self.data_path = './data/'
-		self.forest = ensemble.RandomForestClassifier(n_estimators = 100)
+		self.forest = ensemble.RandomForestClassifier(n_estimators = 150)
 
 
 	def readCsv(self):
@@ -19,7 +19,9 @@ class pollution (object):
 				data.append(polluSheet)
 			except:
 				continue
-		return data
+		for i in range(1,len(data)):
+			data[0] = pd.concat([data[0],data[i]])
+		return data[0]
 
 	def DataSplit(self, data):
 		titanic_X = data.drop(['河川污染指數'],axis = 1)
@@ -35,10 +37,8 @@ class pollution (object):
 
 if __name__ == '__main__':
 	pollu = pollution()
-	for i in pollu.readCsv():
-		train_X, test_X, train_y, test_y = pollu.DataSplit(i)
-		pollu.TrainRandomForestModel(train_X, train_y, test_X,test_y)
-			
+	train_X, test_X, train_y, test_y = pollu.DataSplit(pollu.readCsv())
+	pollu.TrainRandomForestModel(train_X, train_y, test_X,test_y)
 
 
 
