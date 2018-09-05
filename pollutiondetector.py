@@ -1,5 +1,3 @@
-
-import tensorflow as tf
 import numpy as np
 import os, random
 import pandas as pd 
@@ -39,7 +37,7 @@ if __name__ == '__main__':
 	pollu = pollution()
 	for i in pollu.readCsv():
 		train_X, test_X, train_y, test_y = pollu.DataSplit(i)
-		pollu.TrainRandomForestModel(train_X, test_X, train_y, test_y)
+		pollu.TrainRandomForestModel(train_X, train_y, test_X,test_y)
 			
 
 
