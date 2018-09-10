@@ -8,9 +8,8 @@ class pollution (object):
 		self.data_path = './data/'
 		self.forest = ensemble.RandomForestClassifier(n_estimators = 150)
 
-
-	def readCsv(self):
-		CsvFile = os.listdir(self.data_path)
+	def readCsv(self, pathway):
+		CsvFile = os.listdir(pathway)
 		data = []
 		for i in CsvFile:
 			try :
@@ -35,13 +34,19 @@ class pollution (object):
 		accuracy = metrics.accuracy_score(testY, test_y_predicted)
 		print (accuracy)
 
-	def PredictThePollution(self, dataX):
-		return self.forest.predict(dataX)
+	def PredictThePollution(self, data):
+		daX = data.drop(['河川污染指數'],axis = 1)
+		daY = data['河川污染指數']
+		return self.forest.predict(daX), daY
 
 if __name__ == '__main__':
 	pollu = pollution()
-	train_X, test_X, train_y, test_y = pollu.DataSplit(pollu.readCsv())
+	train_X, test_X, train_y, test_y = pollu.DataSplit(pollu.readCsv(pollu.data_path))
 	pollu.TrainRandomForestModel(train_X, train_y, test_X,test_y)
+
+
+
+
 	
 
 
